@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f5f8ff">
+<title>RAFINOOR Report Formatter Pro</title>
+<style>
+:root{--bg:#f4f7fc;--panel:#fff;--ink:#172033;--muted:#66738a;--line:#dce4f0;--soft:#f0f5fc;--cyan:#087eaa;--violet:#6d55d9;--green:#087f5b;--red:#b42342}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{margin:0;background:radial-gradient(ellipse at 0% 0%,#dff4ff 0,transparent 38%),radial-gradient(ellipse at 100% 0%,#eee7ff 0,transparent 35%),var(--bg);color:var(--ink);font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;min-height:100vh;overflow-x:hidden}
+@keyframes drift{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+@keyframes shine{0%{background-position:0% 50%}100%{background-position:200% 50%}}
+@keyframes softPulse{0%,100%{box-shadow:0 5px 18px #087eaa0d}50%{box-shadow:0 8px 25px #087eaa20}}
+@keyframes enter{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+main{width:min(920px,100%);margin:auto;padding:calc(13px + env(safe-area-inset-top)) 12px calc(30px + env(safe-area-inset-bottom))}
+header{padding:10px 4px 17px;animation:enter .45s ease both}
+.brand{display:flex;align-items:center;gap:12px}
+.logo{width:52px;height:52px;flex:none;border-radius:17px;display:grid;place-items:center;background:linear-gradient(135deg,#c7f2ff,#d9d0ff);border:1px solid #b7d7f2;color:#17334d;font-size:18px;font-weight:950;letter-spacing:-1px;animation:drift 4s ease-in-out infinite}
+h1{font-size:clamp(21px,5.3vw,31px);line-height:1.12;letter-spacing:-.7px;margin:0;background:linear-gradient(90deg,#172033,#087eaa,#6d55d9,#172033);background-size:200% auto;color:transparent;background-clip:text;animation:shine 10s linear infinite}
+.subtitle{margin:7px 0 0;color:var(--muted);font-size:12px;line-height:1.5}
+.live{display:inline-flex;align-items:center;gap:7px;margin-top:10px;color:#087f5b;font-size:10px;font-weight:800;letter-spacing:.8px}
+.dot{width:7px;height:7px;border-radius:50%;background:#0baf7c;box-shadow:0 0 0 4px #0baf7c1c;animation:softPulse 2s infinite}
+.tabs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:5px 0 14px;position:sticky;top:0;padding:8px 0;background:#f4f7fce8;backdrop-filter:blur(14px);z-index:5}
+button{font:inherit;font-weight:750;border:1px solid transparent;border-radius:13px;padding:13px 14px;min-height:46px;cursor:pointer;touch-action:manipulation;transition:transform .16s,filter .16s,border-color .16s}
+button:active{transform:scale(.985)}
+.tab{background:#fff;color:#58657a;border-color:var(--line)}
+.tab.active{background:linear-gradient(110deg,#d5f5ff,#e4deff);border-color:#c6d9f2;color:#1b3855}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:19px;padding:15px;margin:12px 0;box-shadow:0 8px 26px #203b5a08;animation:enter .4s ease both}
+.panel h2{font-size:16px;margin:0 0 10px;display:flex;align-items:center;gap:9px}
+.step{width:26px;height:26px;display:grid;place-items:center;border-radius:8px;background:#e6f7ff;border:1px solid #c4e9f8;color:#087eaa;font-size:12px;flex:none}
+.muted{font-size:12px;color:var(--muted);line-height:1.55;margin:7px 0}
+label{display:block;font-size:12px;font-weight:750;color:#35435a;margin:12px 0 6px}
+input,select,textarea{width:100%;max-width:100%;border:1px solid #d4deeb;background:#fff;color:var(--ink);border-radius:12px;padding:12px;font:inherit;font-size:14px;outline:none}
+input:focus,select:focus,textarea:focus{border-color:#67bde0;box-shadow:0 0 0 3px #55bfe51b}
+input[type=file]{font-size:12px;padding:10px}
+textarea{min-height:165px;resize:vertical;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:12px;line-height:1.6}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.primary{background:linear-gradient(110deg,#d0f3ff,#dcd5ff);border-color:#c5d9f0;color:#19344c;flex:1}
+.secondary{background:#f2f5fa;color:#33425a;border-color:#dce4f0}
+.danger{background:#fff0f2;color:#9f2540;border-color:#f0cbd3}
+.full{width:100%}
+.checks{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.check{display:flex;align-items:center;gap:9px;margin:0;padding:11px 10px;border:1px solid var(--line);border-radius:12px;background:#fbfcff;font-size:11px;line-height:1.35;min-width:0}
+.check input{width:17px;height:17px;flex:none;accent-color:#087eaa;margin:0;padding:0}
+.check span{overflow-wrap:anywhere}
+.copy{width:100%;border-radius:999px;min-height:57px;background:linear-gradient(100deg,#d1f4ff,#dcd4ff);border:1px solid #c5d8ef;color:#19344c;font-size:16px;animation:softPulse 3.5s ease-in-out infinite}
+.status{min-height:17px;font-size:12px;color:var(--muted);margin-top:8px;line-height:1.5}
+.status.ok{color:var(--green)}.status.err{color:var(--red)}
+.hidden{display:none!important}
+.badge{display:inline-flex;border:1px solid #d5deeb;border-radius:999px;padding:4px 8px;color:#53647c;font-size:10px;white-space:nowrap}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+.stat{background:#f8faff;border:1px solid var(--line);border-radius:12px;padding:10px}
+.stat strong{display:block;font-size:19px;color:#087eaa}.stat span{font-size:10px;color:var(--muted)}
+.preview{overflow:auto;max-height:180px;white-space:pre-wrap;overflow-wrap:anywhere;font:11px/1.5 ui-monospace,monospace;background:#f8faff;border:1px solid var(--line);border-radius:10px;padding:10px;margin-top:10px}
+.tablewrap{overflow:auto;max-width:100%;margin-top:10px}table{border-collapse:collapse;font-size:11px;width:100%}th,td{border:1px solid var(--line);padding:7px;text-align:left;white-space:nowrap}th{background:#edf3fb}
+.colpicker{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:8px}
+.colpicker .check{align-items:flex-start}
+footer{text-align:center;color:#8390a5;font-size:10px;padding:17px 0 0}
+@media(min-width:650px){main{padding-left:20px;padding-right:20px}.panel{padding:20px}.checks{grid-template-columns:repeat(3,1fr)}.colpicker{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:380px){main{padding-left:9px;padding-right:9px}.panel{padding:12px;border-radius:16px}.grid,.checks,.colpicker{grid-template-columns:1fr}.actions button{flex:1}.logo{width:46px;height:46px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition:none!important}}
+.login-overlay{position:fixed;inset:0;z-index:99999;background:rgba(9,13,22,.72);backdrop-filter:blur(10px);display:none;align-items:center;justify-content:center;padding:16px}
+.login-overlay.show{display:flex}
+.login-card{background:#111827;border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:28px 24px;width:100%;max-width:400px;box-shadow:0 20px 50px rgba(0,0,0,.45);text-align:center;animation:enter .35s ease both}
+.login-card .logo-lock{width:56px;height:56px;margin:0 auto 12px;border-radius:14px;background:linear-gradient(135deg,#4f46e5,#6366f1);display:grid;place-items:center;font-size:24px}
+.login-card h3{color:#fff;font-size:1.15rem;font-weight:800;margin:0 0 4px}
+.login-card .sub{color:#9ca3af;font-size:.78rem;margin:0 0 18px}
+.login-card input{background:#0b1220;color:#fff;border:1px solid #374151;border-radius:12px;padding:13px 14px;width:100%;font-size:16px;margin-bottom:10px}
+.login-card input:focus{border-color:#6366f1;box-shadow:0 0 0 3px rgba(99,102,241,.2);outline:none}
+.login-card .err{color:#f87171;font-size:.85rem;min-height:18px;margin:0 0 10px}
+.login-card .btn-login{width:100%;background:#4f46e5;color:#fff;border:none;border-radius:12px;min-height:48px;font-weight:700;font-size:.95rem;cursor:pointer}
+.login-card .btn-login:disabled{opacity:.6;cursor:not-allowed}
+.login-card .hint{color:#6b7280;font-size:.72rem;margin:14px 0 0}
+.login-card .btn-cancel{margin-top:10px;background:transparent;border:1px solid #374151;color:#9ca3af;width:100%;border-radius:12px;min-height:42px;cursor:pointer}
+.admin-bar{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:12px;padding:10px 12px;background:#eef6ff;border:1px solid #c5d9f0;border-radius:12px}
+.admin-bar .ok-badge{font-size:11px;font-weight:800;color:#087f5b}
+.admin-bar .btn-logout{background:#fff0f2;color:#9f2540;border:1px solid #f0cbd3;border-radius:10px;padding:8px 14px;min-height:36px;font-size:12px;font-weight:750;cursor:pointer}
+</style></head>
+<body><main>
+<header><div class="brand"><div class="logo">RF</div><div><h1>RAFINOOR Report Formatter Pro</h1><p class="subtitle">Smart Site ID Matching · Excel Admin · Mobile Ready</p></div></div><div class="live"><span class="dot"></span> REPORT SYSTEM READY</div></header>
+<div class="tabs"><button class="tab active" data-tab="work">✦ Report Formatter</button><button class="tab" data-tab="admin">⚙ Admin Panel</button></div>
+<section id="work">
+<div class="panel"><h2><span class="step">01</span> Original Report</h2><p class="muted">Paste the complete DL CMM report from xsite_bot below.</p><textarea id="source" spellcheck="false" placeholder="xsite_bot: <b>DL DOWN CMM:</b><br>..."></textarea><div class="actions"><button class="primary" id="format">✦ Format Report</button><button class="secondary" id="clear">Clear</button></div><div id="inputStatus" class="status"></div></div>
+<div class="panel"><h2><span class="step">02</span> Formatted Report <span class="badge">Editable</span></h2><p class="muted">You can edit the output directly. Copy Report copies the current text exactly as shown.</p><textarea id="output" spellcheck="false" placeholder="Your formatted report will appear here..."></textarea><button class="copy" id="copy">▢ &nbsp; Copy Report</button><div id="copyStatus" class="status" aria-live="polite"></div></div>
+</section>
+<section id="admin" class="hidden">
+<div class="admin-bar"><span class="ok-badge">🔓 Admin Unlocked · Cloud Session</span><button type="button" class="btn-logout" id="adminLogout">Logout</button></div>
+<div class="panel"><h2><span class="step">A1</span> Excel Upload Manager</h2><p class="muted">Upload multiple Excel or CSV files at once. Data rows from all files are merged by matching column headers. If the same Site ID appears more than once, the last non-empty value for a selected column is used.</p><label>Choose Excel / CSV files</label><input id="files" type="file" accept=".xlsx,.xls,.csv" multiple><div class="grid"><div><label>Site ID column</label><select id="idcol" disabled></select></div><div><label>Select Sheet</label><select id="sheet" disabled><option>Upload files first</option></select></div></div><div id="excelStatus" class="status">No Excel data loaded yet.</div><div class="stats"><div class="stat"><strong id="fileCount">0</strong><span>Files selected</span></div><div class="stat"><strong id="rowCount">0</strong><span>Rows loaded</span></div><div class="stat"><strong id="siteCount">0</strong><span>Unique Site IDs</span></div></div><div id="preview" class="preview hidden"></div><div id="table" class="tablewrap"></div><div class="actions"><button class="secondary" id="removeExcel">Remove Excel Data</button></div></div>
+<div class="panel"><h2><span class="step">A2</span> Data Columns to Append</h2><p class="muted">Select any number of Excel columns. Values from all selected columns will be added beside a matched Site ID, in the order selected. You can choose to include each column name in the report.</p><div id="columnPicker" class="colpicker"><span class="muted">Upload Excel files to choose data columns.</span></div><label class="check"><input id="includeHeaders" type="checkbox" checked><span>Include selected column names (example: Light Colo)</span></label><label>Separator between selected column values</label><select id="separator"><option value=" | ">Vertical bar ( | )</option><option value=" · ">Middle dot ( · )</option><option value=", ">Comma</option><option value=" ">Space</option><option value="\n">New line</option></select><label>Optional text before appended values</label><input id="label" placeholder="Example: Additional data"><p class="muted">Example output: <strong>CMMK1(23:36) Light Colo: Available | Power Type: AC</strong></p></div>
+<div class="panel"><h2><span class="step">A3</span> Category Match Controls</h2><p class="muted">Excel matching is applied only to selected categories. Unselected categories remain unchanged.</p><div id="checks" class="checks"></div><div class="actions"><button class="secondary" id="allCats">Select All</button><button class="secondary" id="noCats">Select None</button></div></div>
+<div class="panel"><h2><span class="step">A4</span> Admin Settings</h2><label class="check"><input id="caseInsensitive" type="checkbox" checked><span>Ignore letter case when matching Site IDs</span></label><label class="check"><input id="skipEmpty" type="checkbox" checked><span>Skip empty cells in selected Excel columns</span></label><label class="check"><input id="saveLocal" type="checkbox" checked><span>Save settings in this browser</span></label><div class="actions"><button class="primary" id="saveSettings">Save Admin Settings</button><button class="danger" id="resetSettings">Reset Settings</button></div><div id="adminStatus" class="status"></div><p class="muted">Excel data is processed in this browser and is not uploaded to a server by this page. The Excel library loads from a CDN, so an internet connection is required to read Excel files.</p></div>
+</section><footer>RAFINOOR · Report Formatter Pro · Mobile-first interface</footer></main>
+<div class="login-overlay" id="loginOverlay" role="dialog" aria-modal="true">
+  <div class="login-card">
+    <div class="logo-lock">🔐</div>
+    <h3>Admin Login</h3>
+    <p class="sub">RAFINOOR · Cloud Password Gate</p>
+    <input type="password" id="adminPassInput" placeholder="Enter cloud password" autocomplete="current-password">
+    <p class="err" id="adminLoginErr"></p>
+    <button type="button" class="btn-login" id="adminLoginBtn">Login</button>
+    <button type="button" class="btn-cancel" id="adminLoginCancel">Cancel</button>
+    <p class="hint">Password verified via Google Apps Script (cloud only)</p>
+  </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<script>
+const ORDER=["DL DOWN CMM","DL MF CMM","DL BATT CMM","DL DR CMM","DL GR CMM","DL DRAG CMM","DL LCELL CMM","DL GCELL CMM","DL UCELL CMM"];
+const DEFAULTS={"DL DOWN CMM":true,"DL MF CMM":false,"DL BATT CMM":false,"DL DR CMM":false,"DL GR CMM":false,"DL DRAG CMM":false,"DL LCELL CMM":false,"DL GCELL CMM":false,"DL UCELL CMM":false};
+const $=id=>document.getElementById(id);
+let settings={enabled:{...DEFAULTS},idcol:"",selectedCols:[],includeHeaders:true,separator:" | ",label:"",caseInsensitive:true,skipEmpty:true,saveLocal:true};
+let selectedFiles=[],headers=[],rows=[],siteMap=new Map(),report="", workbookSheets=[];
+function loadSettings(){try{let s=JSON.parse(localStorage.getItem("rafin_report_settings")||"{}");settings={...settings,...s,enabled:{...DEFAULTS,...(s.enabled||{})},selectedCols:Array.isArray(s.selectedCols)?s.selectedCols:[]}}catch(e){}}
+function persist(){try{settings.saveLocal=$("saveLocal").checked;if(settings.saveLocal){localStorage.setItem("rafin_report_settings",JSON.stringify(settings));if(workbookSheets.length){localStorage.setItem("rafin_report_excel_data",JSON.stringify({workbookSheets,selectedSheet:$("sheet").value||"all",savedAt:Date.now()}))}}else{localStorage.removeItem("rafin_report_settings");localStorage.removeItem("rafin_report_excel_data")}}catch(e){status("excelStatus","Browser storage is full. Reduce Excel data size or remove unused columns, then save again.","err")}}
+function status(id,msg,type=""){ $(id).textContent=msg;$(id).className="status "+type}
+function escapeHTML(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function cleanHTML(s){return s.replace(/<br\s*\/?>/gi,"\n").replace(/<\/(?:p|div|li)>/gi,"\n").replace(/<[^>]*>/g,"").replace(/&nbsp;/gi," ").replace(/&amp;/gi,"&").replace(/&lt;/gi,"<").replace(/&gt;/gi,">").replace(/&quot;/gi,'"').replace(/&#39;/gi,"'")}
+function norm(v){let s=String(v??"").trim().replace(/[^a-z0-9]/gi,"");return $("caseInsensitive").checked?s.toUpperCase():s}
+function renderCategoryChecks(){const box=$("checks");box.innerHTML="";ORDER.forEach(cat=>{const l=document.createElement("label");l.className="check";const i=document.createElement("input");i.type="checkbox";i.checked=!!settings.enabled[cat];const sp=document.createElement("span");sp.textContent=cat;i.onchange=()=>{settings.enabled[cat]=i.checked;persist()};l.append(i,sp);box.append(l)})}
+function renderColumnPicker(){const box=$("columnPicker");box.innerHTML="";if(!headers.length){box.innerHTML='<span class="muted">Upload Excel files to choose data columns.</span>';return}headers.forEach((h,i)=>{if(i===Number($("idcol").value))return;const l=document.createElement("label");l.className="check";const c=document.createElement("input");c.type="checkbox";c.checked=settings.selectedCols.includes(i);c.onchange=()=>{settings.selectedCols=c.checked?[...settings.selectedCols,i]:settings.selectedCols.filter(n=>n!==i);settings.selectedCols.sort((a,b)=>a-b);rebuildMap();persist()};const sp=document.createElement("span");sp.textContent=h||("Column "+(i+1));l.append(c,sp);box.append(l)})}
+function fillColumns(){const s=$("idcol");s.innerHTML="";headers.forEach((h,i)=>{const o=document.createElement("option");o.value=i;o.textContent=(h||"Column "+(i+1))+" (Column "+(i+1)+")";s.append(o)});s.disabled=!headers.length;let guess=headers.findIndex(h=>/site\s*id|siteid|site\s*code|site\s*name/i.test(h));if(guess<0)guess=0;s.value=settings.idcol!==""&&Number(settings.idcol)<headers.length?settings.idcol:guess;settings.idcol=s.value;renderColumnPicker();rebuildMap()}
+function applySelectedSheet(){const choice=$("sheet").value;let chosen=choice==="all"?workbookSheets:workbookSheets.filter(x=>x.key===choice);headers=[];const objects=[];chosen.forEach(sh=>{sh.headers.forEach(h=>{if(!headers.includes(h))headers.push(h)});sh.rows.forEach(r=>{const obj={};sh.headers.forEach((h,i)=>obj[h]=r[i]??"");objects.push(obj)})});rows=objects.map(obj=>headers.map(h=>obj[h]??""));settings.selectedCols=settings.selectedCols.filter(i=>i<headers.length);fillColumns();renderExcelPreview();status("excelStatus",(choice==="all"?"All sheets merged":($("sheet").selectedOptions[0]?.textContent||"Selected sheet"))+" · "+rows.length+" data rows loaded.","ok");persist()}
+function populateSheetSelector(){const sh=$("sheet");sh.innerHTML="";const all=document.createElement("option");all.value="all";all.textContent="All uploaded sheets (merge)";sh.append(all);workbookSheets.forEach(item=>{const o=document.createElement("option");o.value=item.key;o.textContent=item.fileName+" — "+item.sheetName;sh.append(o)});sh.disabled=!workbookSheets.length;if(workbookSheets.length){const saved=localStorage.getItem("rafin_report_excel_data");let choice="all";try{choice=JSON.parse(saved||"{}").selectedSheet||"all"}catch(e){}sh.value=[...sh.options].some(o=>o.value===choice)?choice:"all";applySelectedSheet()}}
+function rebuildMap(){siteMap.clear();if(!headers.length)return;const idIndex=Number($("idcol").value||0);rows.forEach(row=>{const id=norm(row[idIndex]);if(!id)return;const values={};settings.selectedCols.forEach(index=>{if(index===idIndex)return;const v=String(row[index]??"").trim();if(v!=="")values[index]=v});const previous=siteMap.get(id)||{};Object.assign(previous,Object.fromEntries(Object.entries(values).filter(([k,v])=>v!=="")));if(!siteMap.has(id))siteMap.set(id,previous)});$("rowCount").textContent=rows.length;$("siteCount").textContent=siteMap.size}
+function renderExcelPreview(){const sample=headers.join(" | ")+"\n"+rows.slice(0,5).map(r=>headers.map((_,i)=>r[i]??"").join(" | ")).join("\n");$("preview").textContent=sample;$("preview").classList.remove("hidden");let html="<table><thead><tr>"+headers.map(h=>"<th>"+escapeHTML(h)+"</th>").join("")+"</tr></thead><tbody>";rows.slice(0,12).forEach(r=>{html+="<tr>"+headers.map((_,i)=>"<td>"+escapeHTML(r[i]??"")+"</td>").join("")+"</tr>"});$("table").innerHTML=html+"</tbody></table>";$("fileCount").textContent=selectedFiles.length;$("rowCount").textContent=rows.length;$("siteCount").textContent=siteMap.size}
+async function loadExcelFiles(files){if(!files.length)return;if(!window.XLSX){status("excelStatus","The Excel reader could not load. Connect to the internet and reload this page, or use a CSV file.","err");return}try{workbookSheets=[];selectedFiles=[...files];for(let fi=0;fi<files.length;fi++){const file=files[fi];const wb=XLSX.read(await file.arrayBuffer(),{type:"array"});for(const sn of wb.SheetNames){const matrix=XLSX.utils.sheet_to_json(wb.Sheets[sn],{header:1,defval:"",raw:false});if(!matrix.length)continue;const hs=matrix[0].map((v,i)=>String(v||"Column "+(i+1)).trim());const data=matrix.slice(1).filter(r=>r.some(v=>String(v).trim()!=="")).map(r=>hs.map((_,i)=>r[i]??""));workbookSheets.push({key:"s"+fi+"_"+workbookSheets.length,fileName:file.name,sheetName:sn,headers:hs,rows:data})}}if(!workbookSheets.length){status("excelStatus","No readable sheets found in the selected files.","err");return}populateSheetSelector();$("fileCount").textContent=selectedFiles.length;status("excelStatus","Excel files and sheets loaded. Data will be saved in this browser when local saving is enabled.","ok");persist()}catch(e){status("excelStatus","Could not read one or more files. Please check that they are valid Excel or CSV files.","err")}}
+$("files").onchange=e=>loadExcelFiles([...e.target.files]);
+$("sheet").onchange=()=>applySelectedSheet();
+$("idcol").onchange=()=>{settings.idcol=$("idcol").value;renderColumnPicker();rebuildMap();persist()};
+$("caseInsensitive").onchange=()=>{settings.caseInsensitive=$("caseInsensitive").checked;rebuildMap();persist()};
+$("skipEmpty").onchange=()=>{settings.skipEmpty=$("skipEmpty").checked;persist()};
+$("saveLocal").onchange=()=>{settings.saveLocal=$("saveLocal").checked;persist();if(settings.saveLocal)status("adminStatus","Local saving enabled. Excel data and settings will persist in this browser.","ok");else status("adminStatus","Local saving disabled. Saved Excel data and settings were removed from this browser.")};
+$("includeHeaders").onchange=()=>{settings.includeHeaders=$("includeHeaders").checked;persist()};
+$("separator").onchange=()=>{settings.separator=$("separator").value;persist()};
+$("label").oninput=()=>{settings.label=$("label").value;persist()};
+function parseReport(raw){const found=new Map();const re=/(?:xsite_bot:\s*)?<b>\s*(DL\s+(?:DOWN|MF|BATT|DR|GR|DRAG|LCELL|GCELL|UCELL)\s+CMM:?)\s*<\/b>\s*:?/gi;const ms=[...raw.matchAll(re)];if(ms.length){ms.forEach((m,i)=>found.set(m[1].replace(/:$/,"").trim().toUpperCase(),cleanHTML(raw.slice(m.index+m[0].length,i+1<ms.length?ms[i+1].index:raw.length)).trim().replace(/^\n+|\n+$/g,"")))}else{let cur="";raw.split(/\r?\n/).forEach(line=>{const m=line.match(/^\s*(DL\s+(?:DOWN|MF|BATT|DR|GR|DRAG|LCELL|GCELL|UCELL)\s+CMM)\s*:?\s*$/i);if(m){cur=m[1].toUpperCase();found.set(cur,"")}else if(cur){const v=cleanHTML(line).trim();if(v)found.set(cur,(found.get(cur)?found.get(cur)+"\n":"")+v)}})}return found}
+function extractSiteId(line){const m=line.match(/([A-Z][A-Z0-9_-]{2,})\s*\(/i);return m?m[1]:""}
+function getAppendText(id){const data=siteMap.get(norm(id));if(!data)return"";const pieces=[];settings.selectedCols.forEach(index=>{const value=data[index];if(value===undefined||String(value).trim()==="")return;pieces.push(settings.includeHeaders?(headers[index]+": "+value):value)});if(!pieces.length)return"";return (settings.label.trim()?settings.label.trim()+": ":"")+pieces.join($("separator").value)}
+function formatReport(){const raw=$("source").value.trim();if(!raw){status("inputStatus","Paste a report first.","err");return}const found=parseReport(raw);if(!found.size){status("inputStatus","No supported DL CMM categories were found in the pasted text.","err");return}const blocks=[];ORDER.forEach(cat=>{if(!found.has(cat))return;let body=(found.get(cat)||"No Alarm").trim();if(settings.enabled[cat]&&siteMap.size&&settings.selectedCols.length){body=body.split("\n").map(line=>{if(!line.trim()||/^\s*(No Alarm|No Regular sites are down|Down SmallCell List:|NB:)/i.test(line))return line;const id=extractSiteId(line);if(!id)return line;const addition=getAppendText(id);if(!addition)return line;return line+" "+addition}).join("\n")}blocks.push(cat+":\n"+body)});report=blocks.join("\n\n");$("output").value=report;status("inputStatus","Report formatted successfully. Review or edit the output below.","ok");status("copyStatus","")}
+$("format").onclick=formatReport;
+$("clear").onclick=()=>{$("source").value="";$("output").value="";report="";status("inputStatus","");status("copyStatus","")};
+$("output").addEventListener("input",()=>{report=$("output").value;status("copyStatus","Output edited. Copy Report will copy these exact contents.")});
+$("copy").onclick=async()=>{const text=$("output").value;if(!text.trim()){status("copyStatus","Format a report first.","err");return}try{await navigator.clipboard.writeText(text);status("copyStatus","✓ Report copied successfully.","ok")}catch(e){$("output").focus();$("output").select();const ok=document.execCommand("copy");status("copyStatus",ok?"✓ Report copied successfully.":"Select the report text and use Copy.","ok")}};
+/* rafinnorlock — Cloud Admin Auth (PG Automation Suite style) */
+const ADMIN_PASS_URL="https://script.google.com/macros/s/AKfycbwulHNmaFIIKkJlyVri6Hf2UUJnyqJi0sXFklQGtyC-6s_5kVYrqDbwodK_4qF_RTpM/exec";
+let isAdmin=sessionStorage.getItem("rafinoor_admin")==="1";
+async function verifyCloudPassword(input){
+  if(!input)return{ok:false,reason:"empty"};
+  try{
+    const response=await fetch(ADMIN_PASS_URL,{method:"POST",mode:"cors",headers:{"Content-Type":"text/plain"},body:JSON.stringify({action:"login",password:input})});
+    const data=await response.json();
+    if(data.status==="success")return{ok:true};
+    return{ok:false,reason:"wrong"};
+  }catch(err){console.warn("Cloud login failed:",err);return{ok:false,reason:"network"}}
+}
+function openAdminLogin(){$("adminPassInput").value="";$("adminLoginErr").textContent="";$("loginOverlay").classList.add("show");setTimeout(()=>$("adminPassInput").focus(),80)}
+function closeAdminLogin(){$("loginOverlay").classList.remove("show")}
+function unlockAdmin(){isAdmin=true;sessionStorage.setItem("rafinoor_admin","1");switchTab("admin");closeAdminLogin()}
+function lockAdmin(){isAdmin=false;sessionStorage.removeItem("rafinoor_admin");switchTab("work")}
+function switchTab(name){document.querySelectorAll(".tab").forEach(x=>x.classList.toggle("active",x.dataset.tab===name));$("work").classList.toggle("hidden",name!=="work");$("admin").classList.toggle("hidden",name!=="admin")}
+document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>{
+  if(b.dataset.tab==="admin"){if(isAdmin){switchTab("admin");return}openAdminLogin();return}
+  switchTab("work");
+});
+$("adminLoginBtn").onclick=async()=>{
+  const input=$("adminPassInput").value,err=$("adminLoginErr"),btn=$("adminLoginBtn");
+  err.textContent="";if(!input){err.textContent="Enter password.";return}
+  btn.disabled=true;btn.textContent="Authenticating...";
+  const result=await verifyCloudPassword(input);
+  btn.disabled=false;btn.textContent="Login";
+  if(result.ok){unlockAdmin();return}
+  err.textContent=result.reason==="network"?"Cannot reach cloud server.":result.reason==="wrong"?"Wrong password.":"Login failed.";
+};
+$("adminPassInput").addEventListener("keydown",e=>{if(e.key==="Enter")$("adminLoginBtn").click()});
+$("adminLoginCancel").onclick=closeAdminLogin;
+$("loginOverlay").addEventListener("click",e=>{if(e.target===$("loginOverlay"))closeAdminLogin()});
+$("adminLogout").onclick=()=>lockAdmin();
+$("allCats").onclick=()=>{ORDER.forEach(c=>settings.enabled[c]=true);renderCategoryChecks();persist()};
+$("noCats").onclick=()=>{ORDER.forEach(c=>settings.enabled[c]=false);renderCategoryChecks();persist()};
+$("saveSettings").onclick=()=>{settings.idcol=$("idcol").value;settings.includeHeaders=$("includeHeaders").checked;settings.separator=$("separator").value;settings.label=$("label").value;settings.caseInsensitive=$("caseInsensitive").checked;settings.skipEmpty=$("skipEmpty").checked;settings.saveLocal=$("saveLocal").checked;persist();status("adminStatus","✓ Admin settings saved in this browser.","ok")};
+$("resetSettings").onclick=()=>{settings={enabled:{...DEFAULTS},idcol:"",selectedCols:[],includeHeaders:true,separator:" | ",label:"",caseInsensitive:true,skipEmpty:true,saveLocal:true};$("includeHeaders").checked=true;$("separator").value=" | ";$("label").value="";$("caseInsensitive").checked=true;$("skipEmpty").checked=true;$("saveLocal").checked=true;renderCategoryChecks();if(headers.length)fillColumns();persist();status("adminStatus","Default settings restored.")};
+$("removeExcel").onclick=()=>{selectedFiles=[];workbookSheets=[];headers=[];rows=[];siteMap.clear();settings.selectedCols=[];localStorage.removeItem("rafin_report_excel_data");$("files").value="";$("idcol").innerHTML="";$("idcol").disabled=true;$("sheet").innerHTML="<option>Upload files first</option>";$("sheet").disabled=true;$("columnPicker").innerHTML='<span class="muted">Upload Excel files to choose data columns.</span>';$("preview").classList.add("hidden");$("table").innerHTML="";["fileCount","rowCount","siteCount"].forEach(id=>$(id).textContent="0");status("excelStatus","Excel data removed.");persist()};
+loadSettings();try{const savedData=JSON.parse(localStorage.getItem("rafin_report_excel_data")||"null");if(savedData&&Array.isArray(savedData.workbookSheets)){workbookSheets=savedData.workbookSheets;selectedFiles=Array.from({length:new Set(workbookSheets.map(x=>x.fileName)).size},(_,i)=>({name:"Saved file "+(i+1)}));populateSheetSelector();$("fileCount").textContent=new Set(workbookSheets.map(x=>x.fileName)).size;status("excelStatus","✓ Restored saved Excel data from this browser.","ok")}}catch(e){}$("includeHeaders").checked=settings.includeHeaders!==false;$("separator").value=settings.separator||" | ";$("label").value=settings.label||"";$("caseInsensitive").checked=settings.caseInsensitive!==false;$("skipEmpty").checked=settings.skipEmpty!==false;$("saveLocal").checked=settings.saveLocal!==false;renderCategoryChecks();
+</script></body></html>
